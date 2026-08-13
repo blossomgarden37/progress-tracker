@@ -6,6 +6,8 @@ export interface TaskFilters {
   categoryId?: string;
   assignee?: string;
   sort?: "due_date" | "input_date" | "assignee";
+  /** ステータスが未指定のとき、完了済みタスクを除外する（TOP画面の「未完了案件」用） */
+  onlyIncomplete?: boolean;
 }
 
 function attachCategory(
@@ -35,7 +37,11 @@ export async function getTasks(
   const supabase = getSupabaseClient();
   let query = supabase.from("tasks").select("*");
 
-  if (filters.status) query = query.eq("status", filters.status);
+  if (filters.status) {
+    query = query.eq("status", filters.status);
+  } else if (filters.onlyIncomplete) {
+    query = query.neq("status", "completed");
+  }
   if (filters.categoryId) query = query.eq("category_id", filters.categoryId);
   if (filters.assignee) query = query.eq("assignee", filters.assignee);
 
@@ -49,22 +55,6 @@ export async function getTasks(
   ]);
   if (error) throw error;
   return attachCategory(data as Task[], categories);
-}
-
-export async function getMostUrgentTask(): Promise<TaskWithCategory | null> {
-  const supabase = getSupabaseClient();
-  const [{ data, error }, categories] = await Promise.all([
-    supabase
-      .from("tasks")
-      .select("*")
-      .neq("status", "completed")
-      .order("due_date", { ascending: true })
-      .limit(1),
-    getCategories(),
-  ]);
-  if (error) throw error;
-  const tasks = attachCategory(data as Task[], categories);
-  return tasks[0] ?? null;
 }
 
 export async function getTaskById(id: string): Promise<TaskWithCategory | null> {

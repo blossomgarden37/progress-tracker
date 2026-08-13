@@ -50,6 +50,22 @@ export const URGENCY_ROW_CLASS: Record<UrgencyLevel, string> = {
   done: "opacity-60",
 };
 
+export const URGENCY_CARD_CLASS: Record<UrgencyLevel, string> = {
+  overdue: "border-red-300 bg-red-50",
+  urgent: "border-rose-300 bg-rose-50",
+  soon: "border-amber-300 bg-amber-50",
+  normal: "border-blue-100 bg-white",
+  done: "border-emerald-200 bg-emerald-50/40",
+};
+
+export const URGENCY_TEXT_CLASS: Record<UrgencyLevel, string> = {
+  overdue: "text-red-700",
+  urgent: "text-rose-700",
+  soon: "text-amber-700",
+  normal: "text-blue-700",
+  done: "text-emerald-700",
+};
+
 export function formatDueLabel(dueDate: string, status: TaskStatus): string {
   const days = getDaysUntilDue(dueDate);
   if (status === "completed") return "完了済み";
