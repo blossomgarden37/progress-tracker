@@ -6,9 +6,13 @@ import { STATUS_LABELS, TASK_STATUSES, type Category } from "@/lib/types";
 export function TaskFilters({
   categories,
   assignees,
+  projectNames,
+  propertyNames,
 }: {
   categories: Category[];
   assignees: string[];
+  projectNames: string[];
+  propertyNames: string[];
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -25,7 +29,7 @@ export function TaskFilters({
   }
 
   return (
-    <div className="space-y-5 rounded-xl border border-blue-100 bg-white p-5">
+    <div className="flex h-full flex-col space-y-5 rounded-xl border border-blue-100 bg-white p-5">
       <h2 className="text-sm font-semibold text-blue-900">
         絞り込み・並び替え
       </h2>
@@ -36,6 +40,24 @@ export function TaskFilters({
         options={[
           { value: "", label: "すべて（未完了）" },
           ...TASK_STATUSES.map((s) => ({ value: s, label: STATUS_LABELS[s] })),
+        ]}
+      />
+      <FilterSelect
+        label="プロジェクト"
+        value={searchParams.get("project") ?? ""}
+        onChange={(v) => updateParam("project", v)}
+        options={[
+          { value: "", label: "すべて" },
+          ...projectNames.map((p) => ({ value: p, label: p })),
+        ]}
+      />
+      <FilterSelect
+        label="物件名"
+        value={searchParams.get("property") ?? ""}
+        onChange={(v) => updateParam("property", v)}
+        options={[
+          { value: "", label: "すべて" },
+          ...propertyNames.map((p) => ({ value: p, label: p })),
         ]}
       />
       <FilterSelect

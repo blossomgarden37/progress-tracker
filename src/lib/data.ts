@@ -5,6 +5,8 @@ export interface TaskFilters {
   status?: TaskStatus;
   categoryId?: string;
   assignee?: string;
+  projectName?: string;
+  propertyName?: string;
   sort?: "due_date" | "input_date" | "assignee";
   /** ステータスが未指定のとき、完了済みタスクを除外する（TOP画面の「未完了案件」用） */
   onlyIncomplete?: boolean;
@@ -44,6 +46,9 @@ export async function getTasks(
   }
   if (filters.categoryId) query = query.eq("category_id", filters.categoryId);
   if (filters.assignee) query = query.eq("assignee", filters.assignee);
+  if (filters.projectName) query = query.eq("project_name", filters.projectName);
+  if (filters.propertyName)
+    query = query.eq("property_name", filters.propertyName);
 
   const sortColumn = filters.sort ?? "due_date";
   const ascending = sortColumn !== "input_date";
@@ -68,12 +73,30 @@ export async function getTaskById(id: string): Promise<TaskWithCategory | null> 
   return attachCategory([data as Task], categories)[0];
 }
 
-export async function getDistinctAssignees(): Promise<string[]> {
+async function getDistinctColumnValues(
+  column: "assignee" | "project_name" | "property_name",
+): Promise<string[]> {
   const supabase = getSupabaseClient();
-  const { data, error } = await supabase.from("tasks").select("assignee");
+  const { data, error } = await supabase.from("tasks").select(column);
   if (error) throw error;
-  const set = new Set((data as { assignee: string }[]).map((t) => t.assignee));
+  const set = new Set(
+    (data as Record<string, string | null>[])
+      .map((row) => row[column])
+      .filter((value): value is string => Boolean(value)),
+  );
   return Array.from(set).sort();
+}
+
+export function getDistinctAssignees(): Promise<string[]> {
+  return getDistinctColumnValues("assignee");
+}
+
+export function getDistinctProjectNames(): Promise<string[]> {
+  return getDistinctColumnValues("project_name");
+}
+
+export function getDistinctPropertyNames(): Promise<string[]> {
+  return getDistinctColumnValues("property_name");
 }
 
 export interface CategorySummary extends Category {

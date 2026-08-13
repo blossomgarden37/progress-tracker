@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 export function Header() {
   return (
     <header className="border-b border-blue-100 bg-white">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+      <div className="flex items-center justify-between px-[100px] py-4">
         <Link href="/" className="text-lg font-bold tracking-tight text-blue-900">
           progress-tracker
         </Link>

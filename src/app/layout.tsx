@@ -19,7 +19,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="ja" className={`${notoSansJp.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-blue-50 font-sans text-slate-900">
         <Header />
-        <main className="mx-auto w-full max-w-6xl flex-1 px-6 py-8">
+        <main className="w-full flex-1 px-[100px] py-8">
           {children}
         </main>
       </body>

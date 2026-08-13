@@ -34,10 +34,12 @@ export const URGENCY_LABEL: Record<UrgencyLevel, string> = {
   done: "完了",
 };
 
+// バッジで期限の緊急度を目立たせるための配色。overdue/urgent/soonは
+// カード自体の背景色は変えず、このバッジの彩度で注意を引く。
 export const URGENCY_BADGE_CLASS: Record<UrgencyLevel, string> = {
-  overdue: "bg-red-100 text-red-700 ring-1 ring-inset ring-red-600/20",
-  urgent: "bg-rose-100 text-rose-700 ring-1 ring-inset ring-rose-600/20",
-  soon: "bg-amber-100 text-amber-700 ring-1 ring-inset ring-amber-600/20",
+  overdue: "bg-red-600 text-white",
+  urgent: "bg-rose-500 text-white",
+  soon: "bg-amber-500 text-white",
   normal: "bg-blue-50 text-blue-600 ring-1 ring-inset ring-blue-600/15",
   done: "bg-emerald-100 text-emerald-700 ring-1 ring-inset ring-emerald-600/20",
 };
@@ -48,22 +50,6 @@ export const URGENCY_ROW_CLASS: Record<UrgencyLevel, string> = {
   soon: "bg-amber-50/50",
   normal: "",
   done: "opacity-60",
-};
-
-export const URGENCY_CARD_CLASS: Record<UrgencyLevel, string> = {
-  overdue: "border-red-300 bg-red-50",
-  urgent: "border-rose-300 bg-rose-50",
-  soon: "border-amber-300 bg-amber-50",
-  normal: "border-blue-100 bg-white",
-  done: "border-emerald-200 bg-emerald-50/40",
-};
-
-export const URGENCY_TEXT_CLASS: Record<UrgencyLevel, string> = {
-  overdue: "text-red-700",
-  urgent: "text-rose-700",
-  soon: "text-amber-700",
-  normal: "text-blue-700",
-  done: "text-emerald-700",
 };
 
 export function formatDueLabel(dueDate: string, status: TaskStatus): string {
