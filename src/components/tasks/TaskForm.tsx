@@ -6,7 +6,7 @@ import { SubmitButton } from "@/components/ui/SubmitButton";
 import { Button } from "@/components/ui/Button";
 
 const inputClass =
-  "w-full rounded-md border border-blue-200 px-3 py-2 text-sm text-slate-800 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500";
+  "w-full rounded-md border border-emerald-200 px-3 py-2 text-sm text-slate-800 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500";
 
 function Field({
   label,
@@ -19,7 +19,7 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="mb-1 block text-sm font-medium text-blue-900">
+      <span className="mb-1 block text-sm font-medium text-emerald-900">
         {label}
         {required ? <span className="ml-0.5 text-rose-500">*</span> : null}
       </span>
@@ -40,7 +40,7 @@ export function TaskForm({
   return (
     <form
       action={action}
-      className="space-y-6 rounded-2xl border border-blue-100 bg-white p-6"
+      className="space-y-6 rounded-2xl border border-emerald-100 bg-white p-6"
     >
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <Field label="プロジェクト名" required>
@@ -131,7 +131,7 @@ export function TaskForm({
               type="checkbox"
               name="needs_rework"
               defaultChecked={task?.needs_rework}
-              className="h-4 w-4 rounded border-blue-300 text-blue-600 focus:ring-blue-500"
+              className="h-4 w-4 rounded border-emerald-300 text-emerald-600 focus:ring-emerald-500"
             />
             要再対応としてマークする
           </label>
@@ -145,7 +145,7 @@ export function TaskForm({
           className={inputClass}
         />
       </Field>
-      <div className="flex justify-end gap-3 border-t border-blue-100 pt-4">
+      <div className="flex justify-end gap-3 border-t border-emerald-100 pt-4">
         <Button href="/" variant="secondary">
           キャンセル
         </Button>

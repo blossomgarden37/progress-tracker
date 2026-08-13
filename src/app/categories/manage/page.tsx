@@ -7,7 +7,7 @@ import { ConfirmForm } from "@/components/ui/ConfirmForm";
 export const dynamic = "force-dynamic";
 
 const inputClass =
-  "w-full rounded-md border border-blue-200 px-3 py-2 text-sm text-slate-800 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500";
+  "w-full rounded-md border border-emerald-200 px-3 py-2 text-sm text-slate-800 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500";
 
 export default async function CategoryManagePage() {
   const categories = await getCategories();
@@ -18,13 +18,13 @@ export default async function CategoryManagePage() {
         <h1 className="text-xl font-bold text-slate-900">カテゴリ管理</h1>
         <Link
           href="/categories"
-          className="text-sm text-blue-600 hover:text-blue-800"
+          className="text-sm text-emerald-600 hover:text-emerald-800"
         >
           ← カテゴリ別表示へ戻る
         </Link>
       </div>
 
-      <section className="rounded-2xl border border-blue-100 bg-white p-6">
+      <section className="rounded-2xl border border-emerald-100 bg-white p-6">
         <h2 className="mb-4 text-sm font-semibold text-slate-700">
           新しいカテゴリを追加
         </h2>
@@ -42,8 +42,8 @@ export default async function CategoryManagePage() {
             <input
               type="color"
               name="color"
-              defaultValue="#2563eb"
-              className="h-[38px] w-16 rounded-md border border-blue-200"
+              defaultValue="#059669"
+              className="h-[38px] w-16 rounded-md border border-emerald-200"
             />
           </label>
           <SubmitButton>追加する</SubmitButton>
@@ -57,7 +57,7 @@ export default async function CategoryManagePage() {
           return (
             <div
               key={category.id}
-              className="flex flex-wrap items-end gap-4 rounded-xl border border-blue-100 bg-white p-4"
+              className="flex flex-wrap items-end gap-4 rounded-xl border border-emerald-100 bg-white p-4"
             >
               <form
                 action={updateCategoryWithId}
@@ -82,7 +82,7 @@ export default async function CategoryManagePage() {
                     type="color"
                     name="color"
                     defaultValue={category.color}
-                    className="h-[38px] w-16 rounded-md border border-blue-200"
+                    className="h-[38px] w-16 rounded-md border border-emerald-200"
                   />
                 </label>
                 <SubmitButton>保存</SubmitButton>
@@ -97,7 +97,7 @@ export default async function CategoryManagePage() {
           );
         })}
         {categories.length === 0 ? (
-          <p className="rounded-xl border border-blue-100 bg-white p-6 text-center text-slate-500">
+          <p className="rounded-xl border border-emerald-100 bg-white p-6 text-center text-slate-500">
             カテゴリがまだありません。
           </p>
         ) : null}

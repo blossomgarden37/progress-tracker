@@ -12,7 +12,7 @@ export default async function CategoriesPage() {
         <h1 className="text-xl font-bold text-slate-900">カテゴリ別表示</h1>
         <Link
           href="/categories/manage"
-          className="text-sm text-blue-600 hover:text-blue-800"
+          className="text-sm text-emerald-600 hover:text-emerald-800"
         >
           カテゴリを管理 →
         </Link>
@@ -22,7 +22,7 @@ export default async function CategoriesPage() {
           <Link
             key={category.id}
             href={`/categories/${category.id}`}
-            className="rounded-xl border border-blue-100 bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
+            className="rounded-xl border border-emerald-100 bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
           >
             <div className="flex items-center gap-2">
               <span

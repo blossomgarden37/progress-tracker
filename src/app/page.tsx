@@ -46,17 +46,17 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
     ]);
 
   return (
-    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-stretch">
-      <div className="space-y-4">
-        <h1 className="text-xl font-bold text-slate-900">作業進捗一覧</h1>
+    <div className="space-y-6">
+      <h1 className="text-2xl font-bold text-slate-900">作業進捗一覧</h1>
+      <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
         <TaskList tasks={tasks} />
+        <TaskFilters
+          categories={categories}
+          assignees={assignees}
+          projectNames={projectNames}
+          propertyNames={propertyNames}
+        />
       </div>
-      <TaskFilters
-        categories={categories}
-        assignees={assignees}
-        projectNames={projectNames}
-        propertyNames={propertyNames}
-      />
     </div>
   );
 }
