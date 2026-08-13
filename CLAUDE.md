@@ -8,7 +8,6 @@
 - **対象ユーザー**: 現フェーズはオーナー本人のみの個人利用。将来的にプロジェクトに関わる他メンバーへの展開を想定。
 - **コアとなる課題**: 進捗が見える化されておらず、未完了の作業に気づけず、手戻り（やり直し）が発生してしまう。
 - **ゴール**: スタートからゴールまでの進捗の達成度合いを一覧・カテゴリ単位で把握できるようにする。特に「期限が近い作業」を見逃さないことを最優先の価値とする。
-- **参考プロダクト**: Backlog（タスク管理・進捗管理SaaS）
 
 ## 2. 技術スタック
 
@@ -54,16 +53,17 @@ progress-tracker/
     │   │   └── [id]/edit/page.tsx  # 編集画面
     │   └── categories/
     │       ├── page.tsx            # カテゴリ一覧（件数付き）
+    │       ├── manage/page.tsx     # カテゴリ管理（追加・編集・削除）
     │       └── [categoryId]/page.tsx # カテゴリ別の作業一覧
     ├── components/
-    │   ├── ui/                # Badge, Button など汎用UI
+    │   ├── ui/                # Badge, Button, ConfirmForm など汎用UI
     │   ├── layout/             # Header など
     │   └── tasks/              # DeadlineBanner, TaskTable, TaskForm, TaskFilters, StatusBadge
     └── lib/
         ├── supabase.ts        # Supabaseクライアント生成
         ├── types.ts           # Task / Category の型、ステータス定義
         ├── data.ts             # 一覧取得・フィルタ・最優先タスク取得などの読み取り処理
-        ├── actions.ts           # createTask / updateTask / deleteTask（Server Actions）
+        ├── actions.ts           # createTask/updateTask/deleteTask, createCategory/updateCategory/deleteCategory（Server Actions）
         └── urgency.ts           # 期限までの日数 → 緊急度レベル・配色ロジック
 ```
 
@@ -89,7 +89,7 @@ progress-tracker/
 | category_id | uuid (FK → categories, nullable) | カテゴリ別表示に使用 |
 | project_name | text (必須) | プロジェクト名 |
 | property_name | text | 物件名 |
-| batch_no | text | バッチNo |
+| batch_no | text | Badge No |
 | assignee | text (必須) | 担当者 |
 | input_date | date | 入力日付（デフォルト: 当日） |
 | due_date | date (必須) | 期限。メイン画面の「期限間近」表示のソート基準 |
@@ -105,7 +105,7 @@ progress-tracker/
 ## 7. 開発方針
 
 - **データ取得/更新**: 一覧取得など読み取りは Server Component から `lib/data.ts` を通じて行い、作成・更新・削除は Server Actions（`lib/actions.ts`、`"use server"`）に集約する。クライアントコンポーネントは操作が必要な箇所（フォーム・フィルタ）のみに限定する。
-- **デザイントーン**: 「清潔感のある洗練されたデザイン」を基準に、Tailwind CSSの中間トーン（slate系）を基調とし、期限の緊急度のみ意図的に赤系/amber系の警告色で目立たせる。装飾的な配色は避ける。
+- **デザイントーン**: 「清潔感のある洗練されたデザイン」を基準に、ベースカラー・ボタン・タグはTailwind CSSのblue系トーンで統一する。期限の緊急度（`src/lib/urgency.ts`）とステータスの一部（保留中=amber、再対応=rose、完了=emerald）のみ意図的にblue系以外の警告色を用いて目立たせ、それ以外の装飾的な配色は避ける。カテゴリバッジの色はカテゴリごとにユーザーが設定する値（`categories.color`）をそのまま使うため、この統一ルールの対象外。
 - **命名規則**: DBカラムは snake_case、TypeScript側はプロパティ名をDBに合わせて snake_case のまま扱う（型変換レイヤーを増やさずシンプルに保つ）。コンポーネント・関数は既存の Next.js/React 標準（PascalCase コンポーネント、camelCase 関数）に従う。
 - **スコープ管理**: 「まずは自分専用」「まずはテキスト情報のみ」という設計図の明言に従い、認証・ファイル添付・複数ユーザー機能は実装しない。将来追加する場合は本ファイルの該当セクションを更新してから着手する。
 - **マイグレーション**: スキーマ変更は `supabase/migrations/NNNN_*.sql` に追記する形で管理し、既存マイグレーションの内容は変更しない。

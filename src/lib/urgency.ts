@@ -38,7 +38,7 @@ export const URGENCY_BADGE_CLASS: Record<UrgencyLevel, string> = {
   overdue: "bg-red-100 text-red-700 ring-1 ring-inset ring-red-600/20",
   urgent: "bg-rose-100 text-rose-700 ring-1 ring-inset ring-rose-600/20",
   soon: "bg-amber-100 text-amber-700 ring-1 ring-inset ring-amber-600/20",
-  normal: "bg-slate-100 text-slate-600 ring-1 ring-inset ring-slate-500/15",
+  normal: "bg-blue-50 text-blue-600 ring-1 ring-inset ring-blue-600/15",
   done: "bg-emerald-100 text-emerald-700 ring-1 ring-inset ring-emerald-600/20",
 };
 

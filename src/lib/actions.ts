@@ -61,3 +61,62 @@ export async function deleteTask(id: string) {
   revalidatePath("/categories");
   redirect("/");
 }
+
+function parseCategoryForm(formData: FormData) {
+  return {
+    name: String(formData.get("name") ?? "").trim(),
+    color: String(formData.get("color") ?? "").trim() || "#2563eb",
+  };
+}
+
+export async function createCategory(formData: FormData) {
+  const values = parseCategoryForm(formData);
+  if (!values.name) {
+    throw new Error("カテゴリ名は必須です。");
+  }
+
+  const supabase = getSupabaseClient();
+  const { data: last, error: lastError } = await supabase
+    .from("categories")
+    .select("sort_order")
+    .order("sort_order", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (lastError) throw lastError;
+
+  const sort_order = (last?.sort_order ?? 0) + 1;
+  const { error } = await supabase
+    .from("categories")
+    .insert({ ...values, sort_order });
+  if (error) throw error;
+
+  revalidatePath("/categories");
+  redirect("/categories/manage");
+}
+
+export async function updateCategory(id: string, formData: FormData) {
+  const values = parseCategoryForm(formData);
+  if (!values.name) {
+    throw new Error("カテゴリ名は必須です。");
+  }
+
+  const supabase = getSupabaseClient();
+  const { error } = await supabase
+    .from("categories")
+    .update(values)
+    .eq("id", id);
+  if (error) throw error;
+
+  revalidatePath("/categories");
+  redirect("/categories/manage");
+}
+
+export async function deleteCategory(id: string) {
+  const supabase = getSupabaseClient();
+  const { error } = await supabase.from("categories").delete().eq("id", id);
+  if (error) throw error;
+
+  revalidatePath("/");
+  revalidatePath("/categories");
+  redirect("/categories/manage");
+}

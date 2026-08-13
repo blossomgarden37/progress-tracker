@@ -25,7 +25,7 @@ export function TaskFilters({
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-4 rounded-xl border border-slate-200 bg-white p-4">
+    <div className="flex flex-wrap items-center gap-4 rounded-xl border border-blue-100 bg-white p-4">
       <FilterSelect
         label="ステータス"
         value={searchParams.get("status") ?? ""}
@@ -79,10 +79,10 @@ function FilterSelect({
   options: { value: string; label: string }[];
 }) {
   return (
-    <label className="flex items-center gap-2 text-sm text-slate-600">
+    <label className="flex items-center gap-2 text-sm text-blue-900">
       {label}
       <select
-        className="rounded-md border border-slate-300 bg-white px-2 py-1.5 text-sm text-slate-800 focus:border-slate-500 focus:outline-none"
+        className="rounded-md border border-blue-200 bg-white px-2 py-1.5 text-sm text-slate-800 focus:border-blue-500 focus:outline-none"
         value={value}
         onChange={(e) => onChange(e.target.value)}
       >

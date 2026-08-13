@@ -8,27 +8,27 @@ import { CategoryBadge } from "./CategoryBadge";
 export function TaskTable({ tasks }: { tasks: TaskWithCategory[] }) {
   if (tasks.length === 0) {
     return (
-      <div className="rounded-xl border border-slate-200 bg-white p-8 text-center text-slate-500">
+      <div className="rounded-xl border border-blue-100 bg-white p-8 text-center text-slate-500">
         条件に一致する作業はありません。
       </div>
     );
   }
 
   return (
-    <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
-      <table className="min-w-full divide-y divide-slate-200 text-sm">
-        <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+    <div className="overflow-x-auto rounded-xl border border-blue-100 bg-white">
+      <table className="min-w-full divide-y divide-blue-100 text-sm">
+        <thead className="bg-blue-50 text-left text-xs font-semibold uppercase tracking-wide text-blue-700">
           <tr>
             <th className="px-4 py-3">プロジェクト / 物件</th>
             <th className="px-4 py-3">カテゴリ</th>
-            <th className="px-4 py-3">バッチNo</th>
+            <th className="px-4 py-3">Badge No</th>
             <th className="px-4 py-3">担当者</th>
             <th className="px-4 py-3">期限</th>
             <th className="px-4 py-3">ステータス</th>
             <th className="px-4 py-3" />
           </tr>
         </thead>
-        <tbody className="divide-y divide-slate-100">
+        <tbody className="divide-y divide-blue-50">
           {tasks.map((task) => {
             const level = getUrgencyLevel(task.due_date, task.status);
             return (
@@ -67,7 +67,7 @@ export function TaskTable({ tasks }: { tasks: TaskWithCategory[] }) {
                 <td className="px-4 py-3 text-right">
                   <Link
                     href={`/tasks/${task.id}/edit`}
-                    className="text-sm font-medium text-slate-600 hover:text-slate-900"
+                    className="text-sm font-medium text-blue-600 hover:text-blue-800"
                   >
                     編集
                   </Link>

@@ -29,7 +29,7 @@ export default async function CategoryTasksPage(
         </div>
         <Link
           href="/categories"
-          className="text-sm text-slate-500 hover:text-slate-800"
+          className="text-sm text-blue-600 hover:text-blue-800"
         >
           ← カテゴリ一覧へ戻る
         </Link>

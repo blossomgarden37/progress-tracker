@@ -9,20 +9,20 @@ const BANNER_STYLE: Record<string, string> = {
   overdue: "border-red-300 bg-red-50",
   urgent: "border-rose-300 bg-rose-50",
   soon: "border-amber-300 bg-amber-50",
-  normal: "border-slate-200 bg-white",
+  normal: "border-blue-200 bg-white",
 };
 
 const BANNER_TEXT: Record<string, string> = {
   overdue: "text-red-700",
   urgent: "text-rose-700",
   soon: "text-amber-700",
-  normal: "text-slate-500",
+  normal: "text-blue-700",
 };
 
 export function DeadlineBanner({ task }: { task: TaskWithCategory | null }) {
   if (!task) {
     return (
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 text-center text-slate-500">
+      <div className="rounded-2xl border border-blue-100 bg-white p-6 text-center text-slate-500">
         現在、期限が設定された未完了の作業はありません。
       </div>
     );
@@ -65,7 +65,7 @@ export function DeadlineBanner({ task }: { task: TaskWithCategory | null }) {
         <StatusBadge status={task.status} />
         <CategoryBadge category={task.category} />
         <span>担当: {task.assignee}</span>
-        {task.batch_no ? <span>バッチNo: {task.batch_no}</span> : null}
+        {task.batch_no ? <span>Badge No: {task.batch_no}</span> : null}
         <span>期限: {task.due_date}</span>
       </div>
     </Link>
