@@ -49,7 +49,10 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-slate-900">作業進捗一覧</h1>
       <div className="space-y-3">
-        <TaskListHeader />
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
+          <TaskListHeader />
+          <h2 className="pl-5 text-sm font-semibold text-slate-900">検索条件</h2>
+        </div>
         <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
           <TaskList tasks={tasks} />
           <TaskFilters
