@@ -14,14 +14,17 @@ import { PriorityIcon } from "./PriorityIcon";
 // ヘッダー行と各案件行で同じ列幅を共有し、プロジェクト名等の文字数による
 // ズレが起きないようにする（ステータス/プロジェクト名/物件名/期限/担当者/
 // 優先度/カテゴリ の固定幅 + 緊急度バッジ用の固定幅を右端に確保）。
+// ステータスとプロジェクト名の間だけは他の列より広く空けたいので、
+// 2列目に幅のみを持つ空のスペーサー列（TaskListHeaderにも対応する空セルが
+// 必要）を挟んでいる。
 // 固定幅の合計を900px幅のカードに収まる範囲に抑え、横スクロールが
 // 発生しないようにしている。緊急度バッジ列は表示テキストに必要な分だけ
 // 幅を持たせ、余った分はプロジェクト名/物件名など見えづらかった列に
 // 再配分している。
 export const TASK_ROW_GRID_COLS =
-  "grid-cols-[75px_205px_95px_95px_65px_50px_80px_100px]";
+  "grid-cols-[75px_18px_205px_195px_85px_63px_50px_73px_100px]";
 
-export const TASK_ROW_MAX_WIDTH = "max-w-[900px]";
+export const TASK_ROW_MAX_WIDTH = "max-w-[1000px]";
 
 export function TaskListItem({ task }: { task: TaskWithCategory }) {
   const level = getUrgencyLevel(task.due_date, task.status);
@@ -39,6 +42,8 @@ export function TaskListItem({ task }: { task: TaskWithCategory }) {
       <div className="min-w-0">
         <StatusBadge status={task.status} />
       </div>
+
+      <div aria-hidden="true" />
 
       <div className="min-w-0">
         <div className="truncate text-sm font-medium text-slate-900">

@@ -53,7 +53,7 @@ export function TaskFilters({
           ]}
         />
         <FilterSelect
-          label="物件名"
+          label="件名"
           value={searchParams.get("property") ?? ""}
           onChange={(v) => updateParam("property", v)}
           options={[
@@ -109,8 +109,10 @@ function FilterSelect({
   options: { value: string; label: string }[];
 }) {
   return (
-    <label className="block text-sm text-emerald-900">
-      <span className="mb-1 block font-medium">{label}</span>
+    <label className="block text-sm">
+      <span className="mb-1 block font-semibold text-emerald-700/70">
+        {label}
+      </span>
       <select
         className="w-full rounded-md border border-emerald-200 bg-white px-2 py-1.5 text-sm text-slate-800 focus:border-emerald-500 focus:outline-none"
         value={value}
