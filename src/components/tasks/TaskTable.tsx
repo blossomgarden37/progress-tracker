@@ -57,7 +57,14 @@ export function TaskTable({ tasks }: { tasks: TaskWithCategory[] }) {
                 <td className="px-4 py-3 text-slate-600">{task.assignee}</td>
                 <td className="px-4 py-3">
                   <div className="text-slate-800">{task.due_date}</div>
-                  <div className="text-xs text-slate-500">
+                  <div
+                    className={clsx(
+                      "text-xs",
+                      level === "today"
+                        ? "font-semibold text-red-600"
+                        : "text-slate-500",
+                    )}
+                  >
                     {formatDueLabel(task.due_date, task.status)}
                   </div>
                 </td>

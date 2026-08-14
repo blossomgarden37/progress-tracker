@@ -58,8 +58,8 @@ export const URGENCY_BADGE_CLASS: Record<UrgencyLevel, string> = {
 export const URGENCY_ROW_CLASS: Record<UrgencyLevel, string> = {
   overdue: "bg-red-50/70",
   today: "bg-red-50/60",
-  urgent: "bg-orange-50/50",
-  soon: "bg-amber-50/50",
+  urgent: "bg-yellow-100/60",
+  soon: "bg-yellow-50/60",
   normal: "",
   done: "opacity-60",
 };

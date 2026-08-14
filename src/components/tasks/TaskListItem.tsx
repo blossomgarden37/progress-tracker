@@ -19,7 +19,7 @@ import { PriorityIcon } from "./PriorityIcon";
 // 幅を持たせ、余った分はプロジェクト名/物件名など見えづらかった列に
 // 再配分している。
 export const TASK_ROW_GRID_COLS =
-  "grid-cols-[75px_170px_120px_95px_65px_50px_90px_100px]";
+  "grid-cols-[75px_205px_95px_95px_65px_50px_80px_100px]";
 
 export const TASK_ROW_MAX_WIDTH = "max-w-[900px]";
 
