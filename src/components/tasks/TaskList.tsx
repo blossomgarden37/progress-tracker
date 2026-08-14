@@ -7,9 +7,9 @@ import {
 } from "./TaskListItem";
 
 const COLUMN_LABELS = [
+  "ステータス",
   "プロジェクト名",
   "物件名",
-  "ステータス",
   "期限",
   "担当者",
   "カテゴリ",
@@ -19,7 +19,7 @@ function TaskListHeader() {
   return (
     <div
       className={clsx(
-        "grid w-full gap-4 px-5 text-xs font-semibold text-emerald-700/70",
+        "grid w-full gap-3 px-5 text-xs font-semibold text-emerald-700/70",
         TASK_ROW_MAX_WIDTH,
         TASK_ROW_GRID_COLS,
       )}

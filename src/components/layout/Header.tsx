@@ -18,6 +18,12 @@ export function Header() {
           <Link href="/categories" className="hover:text-emerald-900">
             カテゴリ別
           </Link>
+          <Link href="/projects" className="hover:text-emerald-900">
+            プロジェクト別
+          </Link>
+          <Link href="/statuses" className="hover:text-emerald-900">
+            ステータス別
+          </Link>
           <Button href="/tasks/new" className="ml-2">
             + 新規登録
           </Button>

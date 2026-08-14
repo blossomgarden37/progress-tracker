@@ -1,5 +1,11 @@
 import { getSupabaseClient } from "./supabase";
-import type { Category, Task, TaskStatus, TaskWithCategory } from "./types";
+import {
+  TASK_STATUSES,
+  type Category,
+  type Task,
+  type TaskStatus,
+  type TaskWithCategory,
+} from "./types";
 
 export interface TaskFilters {
   status?: TaskStatus;
@@ -122,4 +128,51 @@ export async function getCategorySummaries(): Promise<CategorySummary[]> {
         .length,
     };
   });
+}
+
+export interface ProjectSummary {
+  name: string;
+  totalCount: number;
+  incompleteCount: number;
+}
+
+export async function getProjectSummaries(): Promise<ProjectSummary[]> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("tasks")
+    .select("project_name, status");
+  if (error) throw error;
+
+  const rows = data as { project_name: string; status: TaskStatus }[];
+  const summaries = new Map<string, ProjectSummary>();
+  for (const row of rows) {
+    const existing = summaries.get(row.project_name) ?? {
+      name: row.project_name,
+      totalCount: 0,
+      incompleteCount: 0,
+    };
+    existing.totalCount += 1;
+    if (row.status !== "completed") existing.incompleteCount += 1;
+    summaries.set(row.project_name, existing);
+  }
+  return Array.from(summaries.values()).sort((a, b) =>
+    a.name.localeCompare(b.name, "ja"),
+  );
+}
+
+export interface StatusSummary {
+  status: TaskStatus;
+  totalCount: number;
+}
+
+export async function getStatusSummaries(): Promise<StatusSummary[]> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase.from("tasks").select("status");
+  if (error) throw error;
+
+  const rows = data as { status: TaskStatus }[];
+  return TASK_STATUSES.map((status) => ({
+    status,
+    totalCount: rows.filter((r) => r.status === status).length,
+  }));
 }

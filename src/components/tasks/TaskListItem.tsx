@@ -11,13 +11,14 @@ import { StatusBadge } from "./StatusBadge";
 import { CategoryBadge } from "./CategoryBadge";
 
 // ヘッダー行と各案件行で同じ列幅を共有し、プロジェクト名等の文字数による
-// ズレが起きないようにする（プロジェクト名/物件名/ステータス/期限/担当者/
+// ズレが起きないようにする（ステータス/プロジェクト名/物件名/期限/担当者/
 // カテゴリ の固定幅 + 緊急度バッジ用の可変幅を右端に確保）。
+// 固定幅の合計を900px幅のカードに収まる範囲に抑え、横スクロールが
+// 発生しないようにしている。
 export const TASK_ROW_GRID_COLS =
-  "grid-cols-[240px_180px_110px_140px_110px_160px_1fr]";
+  "grid-cols-[80px_150px_110px_95px_70px_100px_minmax(0,1fr)]";
 
-// 固定列幅の合計より画面が狭い場合は横スクロールさせる（崩れ防止）。
-export const TASK_ROW_MAX_WIDTH = "max-w-[1200px] min-w-[1080px]";
+export const TASK_ROW_MAX_WIDTH = "max-w-[900px]";
 
 export function TaskListItem({ task }: { task: TaskWithCategory }) {
   const level = getUrgencyLevel(task.due_date, task.status);
@@ -28,11 +29,15 @@ export function TaskListItem({ task }: { task: TaskWithCategory }) {
     <Link
       href={`/tasks/${task.id}/edit`}
       className={clsx(
-        "grid w-full items-center gap-4 rounded-lg border border-emerald-100 bg-white px-5 py-4 shadow-sm transition-shadow hover:shadow-md",
+        "grid w-full items-center gap-3 rounded-lg border border-emerald-100 bg-white px-5 py-4 shadow-sm transition-shadow hover:shadow-md",
         TASK_ROW_MAX_WIDTH,
         TASK_ROW_GRID_COLS,
       )}
     >
+      <div className="min-w-0">
+        <StatusBadge status={task.status} />
+      </div>
+
       <div className="min-w-0">
         <div className="truncate text-sm font-medium text-slate-900">
           {task.project_name}
@@ -44,10 +49,6 @@ export function TaskListItem({ task }: { task: TaskWithCategory }) {
 
       <div className="min-w-0 truncate text-sm text-slate-700">
         {task.property_name ?? "-"}
-      </div>
-
-      <div className="min-w-0">
-        <StatusBadge status={task.status} />
       </div>
 
       <div className="min-w-0 text-sm text-slate-700">{task.due_date}</div>

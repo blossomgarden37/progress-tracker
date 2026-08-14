@@ -47,25 +47,33 @@ progress-tracker/
 └── src/
     ├── app/
     │   ├── layout.tsx        # 共通レイアウト・ヘッダーナビ
-    │   ├── page.tsx           # メイン画面（期限バナー + 一覧 + フィルタ）
+    │   ├── page.tsx           # TOP画面（左: 未完了案件の固定幅一覧 / 右: 検索パネル）
     │   ├── tasks/
     │   │   ├── new/page.tsx        # 新規登録（入力画面）
     │   │   └── [id]/edit/page.tsx  # 編集画面
-    │   └── categories/
-    │       ├── page.tsx            # カテゴリ一覧（件数付き）
-    │       ├── manage/page.tsx     # カテゴリ管理（追加・編集・削除）
-    │       └── [categoryId]/page.tsx # カテゴリ別の作業一覧
+    │   ├── categories/
+    │   │   ├── page.tsx            # カテゴリ一覧（件数付き）
+    │   │   ├── manage/page.tsx     # カテゴリ管理（追加・編集・削除）
+    │   │   └── [categoryId]/page.tsx # カテゴリ別の作業一覧
+    │   ├── projects/
+    │   │   ├── page.tsx            # プロジェクト一覧（件数付き）
+    │   │   └── [projectName]/page.tsx # プロジェクト別の作業一覧
+    │   └── statuses/
+    │       ├── page.tsx            # ステータス一覧（件数付き）
+    │       └── [status]/page.tsx   # ステータス別の作業一覧
     ├── components/
     │   ├── ui/                # Badge, Button, ConfirmForm など汎用UI
     │   ├── layout/             # Header など
-    │   └── tasks/              # DeadlineBanner, TaskTable, TaskForm, TaskFilters, StatusBadge
+    │   └── tasks/              # TaskList, TaskListItem, TaskTable, TaskForm, TaskFilters, StatusBadge, CategoryBadge
     └── lib/
         ├── supabase.ts        # Supabaseクライアント生成
         ├── types.ts           # Task / Category の型、ステータス定義
-        ├── data.ts             # 一覧取得・フィルタ・最優先タスク取得などの読み取り処理
+        ├── data.ts             # 一覧取得・フィルタ・カテゴリ/プロジェクト/ステータス別集計などの読み取り処理
         ├── actions.ts           # createTask/updateTask/deleteTask, createCategory/updateCategory/deleteCategory（Server Actions）
         └── urgency.ts           # 期限までの日数 → 緊急度レベル・配色ロジック
 ```
+
+- カテゴリ別/プロジェクト別/ステータス別はいずれも「一覧ページ（件数カード）→ 詳細ページ（`TaskTable`で全件表示）」という同じ構成に揃えている。カテゴリ・ステータスはあらかじめ決まった集合（DBテーブル／enum）なので存在チェックの上で404を返すが、プロジェクト名・物件名はユーザーが自由入力する値のため列挙できず、詳細ページは存在チェックをせずそのまま絞り込み結果（0件なら空表示）を返す。
 
 ## 6. DB設計
 
