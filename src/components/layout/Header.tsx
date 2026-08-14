@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 export function Header() {
   return (
     <header className="border-b border-emerald-100 bg-white">
-      <div className="flex items-center justify-between px-[100px] py-4">
+      <div className="flex items-center justify-between px-[clamp(1rem,5vw,6.25rem)] py-4">
         <Link
           href="/"
           className="text-lg font-bold tracking-tight text-emerald-900"
