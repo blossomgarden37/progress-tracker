@@ -1,5 +1,38 @@
+import { clsx } from "clsx";
 import type { TaskWithCategory } from "@/lib/types";
-import { TaskListItem } from "./TaskListItem";
+import {
+  TaskListItem,
+  TASK_ROW_GRID_COLS,
+  TASK_ROW_MAX_WIDTH,
+} from "./TaskListItem";
+
+const COLUMN_LABELS = [
+  "プロジェクト名",
+  "物件名",
+  "ステータス",
+  "期限",
+  "担当者",
+  "カテゴリ",
+];
+
+function TaskListHeader() {
+  return (
+    <div
+      className={clsx(
+        "grid w-full gap-4 px-5 text-xs font-semibold text-emerald-700/70",
+        TASK_ROW_MAX_WIDTH,
+        TASK_ROW_GRID_COLS,
+      )}
+    >
+      {COLUMN_LABELS.map((label) => (
+        <span key={label} className="truncate">
+          {label}
+        </span>
+      ))}
+      <span />
+    </div>
+  );
+}
 
 export function TaskList({ tasks }: { tasks: TaskWithCategory[] }) {
   if (tasks.length === 0) {
@@ -11,12 +44,17 @@ export function TaskList({ tasks }: { tasks: TaskWithCategory[] }) {
   }
 
   return (
-    <ul className="space-y-3">
-      {tasks.map((task) => (
-        <li key={task.id}>
-          <TaskListItem task={task} />
-        </li>
-      ))}
-    </ul>
+    <div className="overflow-x-auto">
+      <div className="space-y-3">
+        <TaskListHeader />
+        <ul className="space-y-3">
+          {tasks.map((task) => (
+            <li key={task.id}>
+              <TaskListItem task={task} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 }
