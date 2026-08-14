@@ -7,7 +7,7 @@ import {
 } from "@/lib/data";
 import type { TaskStatus } from "@/lib/types";
 import { TaskFilters } from "@/components/tasks/TaskFilters";
-import { TaskList } from "@/components/tasks/TaskList";
+import { TaskList, TaskListHeader } from "@/components/tasks/TaskList";
 
 export const dynamic = "force-dynamic";
 
@@ -48,14 +48,17 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-slate-900">作業進捗一覧</h1>
-      <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
-        <TaskList tasks={tasks} />
-        <TaskFilters
-          categories={categories}
-          assignees={assignees}
-          projectNames={projectNames}
-          propertyNames={propertyNames}
-        />
+      <div className="space-y-3">
+        <TaskListHeader />
+        <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
+          <TaskList tasks={tasks} />
+          <TaskFilters
+            categories={categories}
+            assignees={assignees}
+            projectNames={projectNames}
+            propertyNames={propertyNames}
+          />
+        </div>
       </div>
     </div>
   );

@@ -16,7 +16,10 @@ const COLUMN_LABELS = [
   "カテゴリ",
 ];
 
-function TaskListHeader() {
+// 列見出し行。作業進捗一覧の幅（TaskListItemと同じ左カラム分）だけを占め、
+// 検索条件パネルとの高さ比較の対象からは外すため、一覧本体（TaskList）とは
+// 別コンポーネントとして呼び出し側（page.tsx）で個別に配置する。
+export function TaskListHeader() {
   return (
     <div
       className={clsx(
@@ -46,16 +49,13 @@ export function TaskList({ tasks }: { tasks: TaskWithCategory[] }) {
 
   return (
     <div className="overflow-x-auto">
-      <div className="space-y-3">
-        <TaskListHeader />
-        <ul className="space-y-3">
-          {tasks.map((task) => (
-            <li key={task.id}>
-              <TaskListItem task={task} />
-            </li>
-          ))}
-        </ul>
-      </div>
+      <ul className="space-y-3">
+        {tasks.map((task) => (
+          <li key={task.id}>
+            <TaskListItem task={task} />
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
