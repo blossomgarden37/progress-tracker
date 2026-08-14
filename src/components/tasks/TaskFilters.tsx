@@ -29,7 +29,7 @@ export function TaskFilters({
   }
 
   return (
-    <div className="flex flex-col rounded-xl border border-emerald-100 bg-[#EAEAEA] p-5">
+    <div className="flex flex-col rounded-xl border border-emerald-100 bg-[#F5F5F5] p-5">
       <h2 className="text-sm font-semibold text-emerald-900">検索条件</h2>
 
       <div className="mt-4 space-y-4">
@@ -39,7 +39,7 @@ export function TaskFilters({
           onChange={(v) => updateParam("status", v)}
           options={[
             { value: "", label: "すべて（未完了）" },
-            ...TASK_STATUSES.map((s) => ({
+            ...TASK_STATUSES.filter((s) => s !== "completed").map((s) => ({
               value: s,
               label: STATUS_LABELS[s],
             })),

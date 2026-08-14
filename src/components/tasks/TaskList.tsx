@@ -20,7 +20,7 @@ function TaskListHeader() {
   return (
     <div
       className={clsx(
-        "grid w-full gap-3 px-5 text-xs font-semibold text-emerald-700/70",
+        "grid w-full gap-3 px-5 text-sm font-semibold text-emerald-700/70",
         TASK_ROW_MAX_WIDTH,
         TASK_ROW_GRID_COLS,
       )}

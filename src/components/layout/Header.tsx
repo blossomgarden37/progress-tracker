@@ -24,6 +24,9 @@ export function Header() {
           <Link href="/statuses" className="hover:text-emerald-900">
             ステータス別
           </Link>
+          <Link href="/completed" className="hover:text-emerald-900">
+            完了済み
+          </Link>
           <Button href="/tasks/new" className="ml-2">
             + 新規登録
           </Button>

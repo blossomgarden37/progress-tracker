@@ -45,11 +45,11 @@ export async function getTasks(
   const supabase = getSupabaseClient();
   let query = supabase.from("tasks").select("*");
 
-  if (filters.status) {
-    query = query.eq("status", filters.status);
-  } else if (filters.onlyIncomplete) {
-    query = query.neq("status", "completed");
-  }
+  if (filters.status) query = query.eq("status", filters.status);
+  // onlyIncomplete はステータス選択の有無に関わらず常に完了済みを除外する
+  // （作業進捗一覧では完了案件を一切表示しないため。完了済みの確認は
+  // 別ページ /completed で行う）。
+  if (filters.onlyIncomplete) query = query.neq("status", "completed");
   if (filters.categoryId) query = query.eq("category_id", filters.categoryId);
   if (filters.assignee) query = query.eq("assignee", filters.assignee);
   if (filters.projectName) query = query.eq("project_name", filters.projectName);
