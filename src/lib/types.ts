@@ -21,6 +21,16 @@ export const STATUS_LABELS: Record<TaskStatus, string> = {
   completed: "完了",
 };
 
+export type PriorityLevel = "high" | "medium" | "low";
+
+export const PRIORITY_LEVELS: PriorityLevel[] = ["high", "medium", "low"];
+
+export const PRIORITY_LABELS: Record<PriorityLevel, string> = {
+  high: "高",
+  medium: "中",
+  low: "低",
+};
+
 export interface Category {
   id: string;
   name: string;
@@ -40,6 +50,7 @@ export interface Task {
   due_date: string;
   completed_date: string | null;
   status: TaskStatus;
+  priority: PriorityLevel;
   needs_rework: boolean;
   notes: string | null;
   created_at: string;

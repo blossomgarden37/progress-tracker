@@ -103,17 +103,19 @@ progress-tracker/
 | due_date | date (必須) | 期限。メイン画面の「期限間近」表示のソート基準 |
 | completed_date | date, nullable | 処理完了日 |
 | status | enum task_status | `not_started`(未着手) / `in_progress`(進行中) / `on_hold`(保留中) / `needs_rework`(再対応) / `completed`(完了) |
+| priority | enum task_priority | `high`(高) / `medium`(中, デフォルト) / `low`(低)。[0002_add_priority.sql](supabase/migrations/0002_add_priority.sql)で追加 |
 | needs_rework | boolean | 再対応フラグ（一覧での強調表示に使用） |
 | notes | text | 備考 |
 | created_at / updated_at | timestamptz | `updated_at` はトリガーで自動更新 |
 
 - 「保留中」「再対応」は当初 個別カラムでの要望だったが、手作業の運用手順（ステータスは同時に1つ）に合わせて `status` enum に統合し、視認性を上げている。`needs_rework` は再対応が発生した際の履歴的なフラグとして別途保持。
 - 緊急度（色分け）は DB に保持せず、`due_date` と `status` から `src/lib/urgency.ts` でリアルタイムに算出する（マスタデータの二重管理を避けるため）。
+- `priority` は `src/components/tasks/PriorityIcon.tsx` で矢印の角度（高=上向き/中=横向き/低=下向き）と色（高=orange/中=emerald/低=blue）で表現する。
 
 ## 7. 開発方針
 
 - **データ取得/更新**: 一覧取得など読み取りは Server Component から `lib/data.ts` を通じて行い、作成・更新・削除は Server Actions（`lib/actions.ts`、`"use server"`）に集約する。クライアントコンポーネントは操作が必要な箇所（フォーム・フィルタ）のみに限定する。
-- **デザイントーン**: 「清潔感のある洗練されたデザイン」を基準に、ベースカラー・ボタン・タグはTailwind CSSのemerald（green）系トーンで統一する。ステータスバッジは進行中=blue、保留中=amber、再対応=rose、完了=slate（グレー）と意図的にブランドカラーと異なる配色にして見分けやすくしている。期限の緊急度（`src/lib/urgency.ts`のURGENCY_BADGE_CLASS）は期限超過=red、期限間近=rose、まもなく期限=amberの彩度の高いバッジで表現し、カード自体の背景色による強調は行わない。カテゴリバッジの色はカテゴリごとにユーザーが設定する値（`categories.color`）をそのまま使うため、この統一ルールの対象外。
+- **デザイントーン**: 「清潔感のある洗練されたデザイン」を基準に、ベースカラー・ボタンはTailwind CSSのemerald（green）系トーンで統一する。検索条件パネルの背景のみ `#EAEAEA`（淡いグレー）で他の白背景の要素と区別している。ステータスバッジは進行中=blue、保留中=amber、再対応=rose、完了=slate（グレー）と意図的にブランドカラーと異なる配色にして見分けやすくしている。期限の緊急度（`src/lib/urgency.ts`のURGENCY_BADGE_CLASS）は期限超過・本日期限=red、期限間近（3日以内）=orange、まもなく期限（4〜5日）=amberの彩度の高いバッジで表現し、カード自体の背景色による強調は行わない。赤色は「期限超過」「本日期限」のみに限定している。カテゴリバッジの色はカテゴリごとにユーザーが設定する値（`categories.color`）をそのまま使うため、この統一ルールの対象外。
 - **デザイン4原則**: 近接（関連情報は隣接・グルーピングし余白で区切る）、整列（見出しと2カラムの上端など要素の端を揃える）、反復（バッジの形状・角丸・余白のスケールをコンポーネント間で統一する）、対比（期限バッジは彩度の高い配色で他のソフトなバッジより目立たせる）を意識してレイアウトする。
 - **命名規則**: DBカラムは snake_case、TypeScript側はプロパティ名をDBに合わせて snake_case のまま扱う（型変換レイヤーを増やさずシンプルに保つ）。コンポーネント・関数は既存の Next.js/React 標準（PascalCase コンポーネント、camelCase 関数）に従う。
 - **スコープ管理**: 「まずは自分専用」「まずはテキスト情報のみ」という設計図の明言に従い、認証・ファイル添付・複数ユーザー機能は実装しない。将来追加する場合は本ファイルの該当セクションを更新してから着手する。

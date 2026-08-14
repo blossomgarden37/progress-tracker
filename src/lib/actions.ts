@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getSupabaseClient } from "./supabase";
-import type { TaskStatus } from "./types";
+import type { PriorityLevel, TaskStatus } from "./types";
 
 function parseTaskForm(formData: FormData) {
   const categoryId = formData.get("category_id");
@@ -17,6 +17,7 @@ function parseTaskForm(formData: FormData) {
     due_date: String(formData.get("due_date") ?? ""),
     completed_date: String(formData.get("completed_date") ?? "") || null,
     status: String(formData.get("status") ?? "not_started") as TaskStatus,
+    priority: String(formData.get("priority") ?? "medium") as PriorityLevel,
     needs_rework: formData.get("needs_rework") === "on",
     notes: String(formData.get("notes") ?? "").trim() || null,
   };

@@ -9,21 +9,23 @@ import {
 import { Badge } from "@/components/ui/Badge";
 import { StatusBadge } from "./StatusBadge";
 import { CategoryBadge } from "./CategoryBadge";
+import { PriorityIcon } from "./PriorityIcon";
 
 // ヘッダー行と各案件行で同じ列幅を共有し、プロジェクト名等の文字数による
 // ズレが起きないようにする（ステータス/プロジェクト名/物件名/期限/担当者/
-// カテゴリ の固定幅 + 緊急度バッジ用の可変幅を右端に確保）。
+// 優先度/カテゴリ の固定幅 + 緊急度バッジ用の固定幅を右端に確保）。
 // 固定幅の合計を900px幅のカードに収まる範囲に抑え、横スクロールが
-// 発生しないようにしている。
+// 発生しないようにしている。緊急度バッジ列は表示テキストに必要な分だけ
+// 幅を持たせ、余った分はプロジェクト名/物件名など見えづらかった列に
+// 再配分している。
 export const TASK_ROW_GRID_COLS =
-  "grid-cols-[80px_150px_110px_95px_70px_100px_minmax(0,1fr)]";
+  "grid-cols-[75px_170px_120px_95px_65px_50px_90px_100px]";
 
 export const TASK_ROW_MAX_WIDTH = "max-w-[900px]";
 
 export function TaskListItem({ task }: { task: TaskWithCategory }) {
   const level = getUrgencyLevel(task.due_date, task.status);
-  const showUrgencyBadge =
-    level === "overdue" || level === "urgent" || level === "soon";
+  const showUrgencyBadge = level !== "normal" && level !== "done";
 
   return (
     <Link
@@ -55,6 +57,10 @@ export function TaskListItem({ task }: { task: TaskWithCategory }) {
 
       <div className="min-w-0 truncate text-sm text-slate-700">
         {task.assignee}
+      </div>
+
+      <div className="min-w-0">
+        <PriorityIcon priority={task.priority} />
       </div>
 
       <div className="min-w-0">

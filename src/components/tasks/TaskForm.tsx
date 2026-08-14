@@ -1,7 +1,14 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { STATUS_LABELS, TASK_STATUSES, type Category, type Task } from "@/lib/types";
+import {
+  PRIORITY_LABELS,
+  PRIORITY_LEVELS,
+  STATUS_LABELS,
+  TASK_STATUSES,
+  type Category,
+  type Task,
+} from "@/lib/types";
 import { SubmitButton } from "@/components/ui/SubmitButton";
 import { Button } from "@/components/ui/Button";
 
@@ -96,6 +103,19 @@ export function TaskForm({
             {TASK_STATUSES.map((s) => (
               <option key={s} value={s}>
                 {STATUS_LABELS[s]}
+              </option>
+            ))}
+          </select>
+        </Field>
+        <Field label="優先度">
+          <select
+            name="priority"
+            defaultValue={task?.priority ?? "medium"}
+            className={inputClass}
+          >
+            {PRIORITY_LEVELS.map((p) => (
+              <option key={p} value={p}>
+                {PRIORITY_LABELS[p]}
               </option>
             ))}
           </select>
